@@ -1,0 +1,62 @@
+<html>
+<head>
+  <title>BrowserPGP</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="openpgp.min.js"></script>
+  <script>
+
+  openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
+
+  const encryptDecryptFunction = async() => {
+    // put keys in backtick (``) to avoid errors caused by spaces or tabs
+    const pubkey = document.getElementById("pubKey").value
+
+    const options = {
+        message: openpgp.message.fromText(document.getElementById("text").value),       // input as Message object
+        publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for encryption
+    }
+
+    console.log(options);
+
+    openpgp.encrypt(options).then(ciphertext => {
+        encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+        document.getElementById("result").value = encrypted;
+    })
+  }
+  </script>
+  <style>
+  html, body {
+    height: 95%;
+  }
+  div.main {
+    padding:20px;
+    height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">PGP Tools</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/encrypt.html">Encrypt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">More to come.</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <h1 class="display-4">BrowserPGP</h1>
+    <a>A little project that makes using PGP in a browser safe and secure.</a>
+  </div>
+</body>
+</html>
