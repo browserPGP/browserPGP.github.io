@@ -16,9 +16,13 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-while (true) {
-    changeFavicon('/favicon.ico');
-    await sleep(2000);
-    changeFavicon('/favicon2.ico');
-    await sleep(2000);
+async function loop() {
+  while (true) {
+      changeFavicon('/favicon.ico');
+      await sleep(2000);
+      changeFavicon('/favicon2.ico');
+      await sleep(2000);
+  }
 }
+
+loop();
