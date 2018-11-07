@@ -1,1 +1,1 @@
-# BrowserPGP.github.io
+# browserPGP.github.io
