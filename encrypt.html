@@ -63,20 +63,20 @@
         <div class="col-sm" style="height:100%;">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Public Key</label>
-            <textarea class="form-control" style="font-size: 10px;height:100%;" id="pubKey"></textarea>
+            <textarea class="form-control" style="font-size: 10px;height:100%;" id="pubKey" placeholder="-----BEGIN PGP PUBLIC KEY BLOCK-----"></textarea>
           </div>
         </div>
         <div class="col-sm">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Input Text</label>
-            <textarea class="form-control" id="text" rows="5"></textarea>
+            <textarea class="form-control" id="text" rows="5" placeholder="So basically, monky."></textarea>
           </div>
           <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Encrypt</button>
         </div>
         <div class="col-sm" style="height:100%;">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Output</label>
-            <textarea class="form-control" style="font-size: 10px;height:100%;" id="result" readonly></textarea>
+            <textarea class="form-control" style="font-size: 10px;height:100%;" id="result" placeholder="-----BEGIN PGP MESSAGE-----" readonly></textarea>
           </div>
         </div>
       </div>
