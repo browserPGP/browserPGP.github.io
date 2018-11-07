@@ -65,16 +65,16 @@
     </div>
   </nav>
   <div class="main">
-    <div class="container-fluid" style="height:100%;">
-      <div class="row" style="height:100%;">
-        <div class="col-sm" style="height:100%;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Message</label>
-            <textarea class="form-control" style="font-size: 10px;height:45%;" id="pgpMsg" placeholder="-----BEGIN PGP MESSAGE-----"></textarea>
+            <textarea class="form-control" style="font-size: 10px;" rows="10" id="pgpMsg" placeholder="-----BEGIN PGP MESSAGE-----"></textarea>
           </div>
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Privkey</label>
-            <textarea class="form-control" style="font-size: 10px;height:45%;" id="privKey" placeholder="-----BEGIN PGP PRIVATE KEY BLOCK-----"></textarea>
+            <textarea class="form-control" style="font-size: 10px;" rows="10" id="privKey" placeholder="-----BEGIN PGP PRIVATE KEY BLOCK-----"></textarea>
           </div>
         </div>
         <div class="col-sm">
@@ -86,8 +86,8 @@
         </div>
         <div class="col-sm" style="height:100%;">
           <div class="form-group">
-            <label for="exampleFormControlTextarea1">PGP Output</label>
-            <textarea class="form-control" style="font-size: 10px;height:100%;" id="result" readonly></textarea>
+            <label for="exampleFormControlTextarea1">Message</label>
+            <textarea class="form-control" rows="10" placeholder="So basically, I'm monky." id="result" readonly></textarea>
           </div>
         </div>
       </div>

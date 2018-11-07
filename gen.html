@@ -63,9 +63,9 @@
     </div>
   </nav>
   <div class="main">
-    <div class="container-fluid" style="height:100%;">
-      <div class="row" style="height:100%;">
-        <div class="col-3" style="height:100%;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3">
           <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
             <input type="text" class="form-control" id="name" placeholder="Enter name">
@@ -94,17 +94,17 @@
           </div>
         </div>
         <div class="col-sm">
-          <div class="col-sm" style="height:100%;">
+          <div class="col-sm">
             <div class="form-group">
               <label for="exampleFormControlTextarea1">PGP Private Key <a class="text-danger">do not share! (gives complete control of PGP)</a></label>
-              <textarea class="form-control" style="font-size: 10px;height:100%;" id="privkey" readonly></textarea>
+              <textarea class="form-control" style="font-size: 10px;" rows="10" placeholder="-----BEGIN PGP PRIVATE KEY BLOCK-----" id="privkey" readonly></textarea>
             </div>
           </div>
         </div>
-        <div class="col-sm" style="height:100%;">
+        <div class="col-sm">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Public Key <a class="text-success">share this one.</a></label>
-            <textarea class="form-control" style="font-size: 10px;height:100%;" id="pubkey" readonly></textarea>
+            <textarea class="form-control" style="font-size: 10px;" rows="10" placeholder="-----BEGIN PGP PUBLIC KEY BLOCK-----" id="pubkey" readonly></textarea>
           </div>
         </div>
       </div>
