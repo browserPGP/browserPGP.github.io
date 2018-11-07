@@ -1,0 +1,93 @@
+<html>
+<head>
+  <title>BrowserPGP | Decrypt</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="openpgp.min.js"></script>
+  <script>
+
+  openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
+
+  const encryptDecryptFunction = async() => {
+    // put keys in backtick (``) to avoid errors caused by spaces or tabs
+    const privkey = document.getElementById("privKey").value
+    const passphrase = document.getElementById("pass").value
+    const encrypted = document.getElementById("pgpMsg").value
+
+    const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+    await privKeyObj.decrypt(passphrase)
+
+    const options = {
+        message: await openpgp.message.readArmored(encrypted),    // parse armored message
+        privateKeys: [privKeyObj]                                 // for decryption
+    }
+
+    openpgp.decrypt(options).then(plaintext => {
+        console.log(plaintext.data)
+        document.getElementById("result").value = plaintext.data;
+    })
+  }
+  </script>
+  <style>
+  html, body {
+    height: 95%;
+  }
+  div.main {
+    padding:20px;
+    height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">BrowserPGP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/encrypt.html">Encrypt</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/encrypt.html">Decrypt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gen.html">Key Generator</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">More to come.</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="container-fluid" style="height:100%;">
+      <div class="row" style="height:100%;">
+        <div class="col-sm" style="height:100%;">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">PGP Message</label>
+            <textarea class="form-control" style="font-size: 10px;height:45%;" id="pgpMsg" placeholder="-----BEGIN PGP MESSAGE-----"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">PGP Privkey</label>
+            <textarea class="form-control" style="font-size: 10px;height:45%;" id="privKey" placeholder="-----BEGIN PGP PRIVATE KEY BLOCK-----"></textarea>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Privkey Passphrase</label>
+            <input type="password" class="form-control" id="pass" placeholder="Enter passphrase">
+          </div>
+          <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Decrypt</button>
+        </div>
+        <div class="col-sm" style="height:100%;">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">PGP Output</label>
+            <textarea class="form-control" style="font-size: 10px;height:100%;" id="result" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
