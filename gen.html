@@ -1,0 +1,107 @@
+<html>
+<head>
+  <title>BrowserPGP | Key Gen</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="openpgp.min.js"></script>
+  <script>
+  openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
+
+  const encryptDecryptFunction = async() => {
+    document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
+
+    var options = {
+      userIds: [{ name:document.getElementById("name").value, email:document.getElementById("email").value }], // multiple user IDs
+      numBits: 4096,                                            // RSA key size
+      passphrase: document.getElementById("pass").value         // protects the private key
+    };
+
+    openpgp.generateKey(options).then(function(key) {
+      var privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+      var pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+      var revocationSignature = key.revocationSignature; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+      document.getElementById("privkey").value = privkey;
+      document.getElementById("pubkey").value = pubkey;
+      document.getElementById("progressbar").className = "progress-bar bg-success";
+    });
+  }
+  </script>
+  <style>
+  html, body {
+    height: 95%;
+  }
+  div.main {
+    padding:20px;
+    height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">PGP Tools</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/encrypt.html">Encrypt</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/gen.html">Key Generator</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">More to come.</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="container-fluid" style="height:100%;">
+      <div class="row" style="height:100%;">
+        <div class="col-3" style="height:100%;">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name">
+            <small class="form-text text-muted">Will be implemented in PGP keys.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email">
+            <small class="form-text text-muted">Will be implemented in PGP keys.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Passphrase</label>
+            <input type="password" class="form-control" id="pass" placeholder="Enter passphrase">
+            <small class="form-text text-muted">Protects your keys. Needs to be secure.</small>
+          </div>
+          <div class="form-group progress">
+            <div class="progress-bar" role="progressbar" id="progressbar" style="width: 100%"></div>
+          </div>
+          <small id="emailHelp" class="form-text text-danger">This may take some time and cause browser to lag.</small>
+          <br>
+          <div class="form-group">
+            <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Encrypt</button>
+          </div>
+          <div class="form-group">
+            <a>This tool generates a 4096 bit RSA pair of PGP keys. The private key should be backed up in a secure private way. The public key can be shared publicly. These keys can be used for signing, encrypting, and decrypting texts, e-mails, files and directories.</a>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="col-sm" style="height:100%;">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">PGP Private Key <a class="text-danger">do not share! (gives complete control of PGP)</a></label>
+              <textarea class="form-control" style="font-size: 10px;height:100%;" id="privkey" readonly></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm" style="height:100%;">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">PGP Public Key <a class="text-success">share this one.</a></label>
+            <textarea class="form-control" style="font-size: 10px;height:100%;" id="pubkey" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
