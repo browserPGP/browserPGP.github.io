@@ -18,7 +18,9 @@
     const encrypted = document.getElementById("pgpMsg").value
 
     const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
-    await privKeyObj.decrypt(passphrase)
+    if (passphrase) {
+      await privKeyObj.decrypt(passphrase)
+    }
 
     const options = {
         message: await openpgp.message.readArmored(encrypted),    // parse armored message
