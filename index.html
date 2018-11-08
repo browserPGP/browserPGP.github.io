@@ -7,11 +7,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="favicon.js"></script>
-  <script src="md5.js"></script>
-  <script>
-    page = document.documentElement.outerHTML;
-    pagemd5 = md5(document.documentElement.outerHTML);
-  </script>
+  <script src="sha1.min.js"></script>
+  <script src="openpgp.min.js"></script>
   <style>
   html, body {
     height: 95%;
@@ -51,8 +48,15 @@
   <div class="main">
     <h1 class="display-4">browserPGP</h1>
     <a>A website that makes using PGP simple and secure. All work is done client side, so no private data leaves your computer.<br><br>If you want to be extra secure, disable internet while using this site.<br><br>- ar0n#1462</a>
-    <br><br>
+    <br>
+    <div id="worksCheck"></div>
+    <br>
     <img src="pgp.png">
   </div>
 </body>
+<script>
+if (typeof openpgp.config === "object") {
+  document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-success" role="alert">' + openpgp.config.versionstring + ' is functioning.</div>');
+}
+</script>
 </html>
