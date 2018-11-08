@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="favicon.js"></script>
   <script src="sha1.min.js"></script>
-  <script src="openpgp.min.js"></script>
   <style>
   html, body {
     height: 95%;
@@ -54,9 +53,12 @@
     <img src="pgp.png">
   </div>
 </body>
+<script src="openpgp.min.js"></script>
 <script>
 if (typeof openpgp.config === "object") {
   document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-success" role="alert">' + openpgp.config.versionstring + ' is functioning.</div>');
+} else {
+  document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-success" role="alert">OpenPGP.js won\'t start.</div>');
 }
 </script>
 </html>
