@@ -20,20 +20,24 @@
     const pubkey = document.getElementById("pubKey").value
     const cleartext = document.getElementById("signMsg").value
 
-    options = {
-        message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
-        publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for verification
-    };
+    let options;
+    try {
+      options = {
+          message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
+          publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for verification
+      }
+    } catch (err) {
+      document.getElementById("result").value = err.message;
+      document.getElementById("progressbar").className = "progress-bar bg-danger";
+    }
 
     openpgp.verify(options).then(function(verified) {
     	validity = verified.signatures[0].valid; // true
-    	if (validity) {
-    		document.getElementById("result").value = 'Signed by key id ' + verified.signatures[0].keyid.toHex();
-        document.getElementById("progressbar").className = "progress-bar bg-success";
-    	} else {
-        document.getElementById("progressbar").className = "progress-bar bg-danger";
-        document.getElementById("result").value = 'Verification wrong or failed. DO NOT TRUST.';
-      }
+    	document.getElementById("result").value = 'Signed by key id ' + verified.signatures[0].keyid.toHex();
+      document.getElementById("progressbar").className = "progress-bar bg-success";
+    }).catch(function(error){
+      document.getElementById("result").value = error.message;
+      document.getElementById("progressbar").className = "progress-bar bg-danger";
     });
   }
   </script>

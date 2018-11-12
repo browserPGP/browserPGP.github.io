@@ -30,6 +30,10 @@
       document.getElementById("privkey").value = privkey;
       document.getElementById("pubkey").value = pubkey;
       document.getElementById("progressbar").className = "progress-bar bg-success";
+    }).catch(function(error){
+      document.getElementById("pubkey").value = error.message;
+      document.getElementById("privKey").value = error.message;
+      document.getElementById("progressbar").className = "progress-bar bg-danger";
     });
   }
   </script>

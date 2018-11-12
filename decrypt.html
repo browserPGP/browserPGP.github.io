@@ -22,6 +22,7 @@
     const encrypted = document.getElementById("pgpMsg").value
 
     const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+
     if (passphrase) {
       await privKeyObj.decrypt(passphrase)
     }
@@ -32,14 +33,12 @@
     }
 
     openpgp.decrypt(options).then(plaintext => {
-      if (plaintext.data) {
-        document.getElementById("result").value = plaintext.data;
-        document.getElementById("progressbar").className = "progress-bar bg-success";
-      } else {
-        document.getElementById("result").value = 'Error decrypting message.';
-        document.getElementById("progressbar").className = "progress-bar bg-danger";
-      }
-    })
+      document.getElementById("result").value = plaintext.data;
+      document.getElementById("progressbar").className = "progress-bar bg-success";
+    }).catch(function(error){
+      document.getElementById("result").value = error.message;
+      document.getElementById("progressbar").className = "progress-bar bg-danger";
+    });
   }
   </script>
   <style>
