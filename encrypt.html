@@ -2,7 +2,7 @@
 <head>
   <title>browserPGP | Encrypt</title>
   <meta name="description" content="Encrypt PGP in browser, simple and secure.">
-  <meta name="keywords" content="PGP,online,browser,javascript,github,live,secure,key generator,encrypt,decrypt,sign,verify">
+  <meta name="keywords" content="browserPGP,PGP,online,browser,javascript,github,live,secure,key generator,encrypt,decrypt,sign,verify">
   <meta name="author" content="ar0n#1462">
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -16,6 +16,7 @@
   openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
 
   const encryptDecryptFunction = async() => {
+    document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
     // put keys in backtick (``) to avoid errors caused by spaces or tabs
     const pubkey = document.getElementById("pubKey").value
 
@@ -29,6 +30,7 @@
     openpgp.encrypt(options).then(ciphertext => {
         encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
         document.getElementById("result").value = encrypted;
+        document.getElementById("progressbar").className = "progress-bar bg-success";
     })
   }
   </script>
@@ -80,7 +82,7 @@
         <div class="col-sm">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Input Text</label>
-            <textarea class="form-control" id="text" rows="5" placeholder="So basically, I'm monky."></textarea>
+            <textarea class="form-control" id="text" rows="5" placeholder="Secret Message"></textarea>
           </div>
           <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Encrypt</button>
         </div>

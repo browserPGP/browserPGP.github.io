@@ -12,12 +12,14 @@
   openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
 
   const encryptDecryptFunction = async() => {
+    document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
     // put keys in backtick (``) to avoid errors caused by spaces or tabs
     const privkey = document.getElementById("privKey").value
     const passphrase = document.getElementById("pass").value
     const msg = document.getElementById("msg").value
 
     const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+
     if (passphrase) {
       await privKeyObj.decrypt(passphrase)
     }
@@ -28,8 +30,14 @@
     };
 
     openpgp.sign(options).then(function(signed) {
+      if (signed.data) {
         cleartext = signed.data; // '-----BEGIN PGP SIGNED MESSAGE ... END PGP SIGNATURE-----'
         document.getElementById("result").value = cleartext;
+        document.getElementById("progressbar").className = "progress-bar bg-success";
+      } else {
+        document.getElementById("result").value = 'Signing failed.';
+        document.getElementById("progressbar").className = "progress-bar bg-danger";
+      }
     });
   }
   </script>
@@ -75,7 +83,7 @@
         <div class="col-sm">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Message</label>
-            <textarea class="form-control" style="font-size: 10px;" rows="10" id="msg" placeholder=""></textarea>
+            <textarea class="form-control" rows="6" id="msg" placeholder="Message to be signed. Don't sign anything vague as it could be used by someone to pretend to be you, include dates and specifics."></textarea>
           </div>
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Privkey</label>
@@ -87,12 +95,15 @@
             <label for="exampleInputEmail1">Privkey Passphrase</label>
             <input type="password" class="form-control" id="pass" placeholder="Enter passphrase">
           </div>
-          <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Decrypt</button>
+          <div class="form-group progress">
+            <div class="progress-bar" role="progressbar" id="progressbar" style="width: 100%"></div>
+          </div>
+          <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Sign</button>
         </div>
         <div class="col-sm" style="height:100%;">
           <div class="form-group">
             <label for="exampleFormControlTextarea1">PGP Message</label>
-            <textarea class="form-control" rows="10" placeholder="So basically, I'm monky." id="result" readonly></textarea>
+            <textarea class="form-control" style="font-size: 10px;" rows="20" placeholder="-----BEGIN PGP SIGNED MESSAGE-----" id="result" readonly></textarea>
           </div>
         </div>
       </div>
