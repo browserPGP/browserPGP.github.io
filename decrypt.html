@@ -32,8 +32,13 @@
     }
 
     openpgp.decrypt(options).then(plaintext => {
+      if (plaintext.data) {
         document.getElementById("result").value = plaintext.data;
         document.getElementById("progressbar").className = "progress-bar bg-success";
+      } else {
+        document.getElementById("result").value = 'Error decrypting message.';
+        document.getElementById("progressbar").className = "progress-bar bg-danger";
+      }
     })
   }
   </script>

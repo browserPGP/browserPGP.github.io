@@ -24,12 +24,15 @@
         publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for encryption
     }
 
-    console.log(options);
-
     openpgp.encrypt(options).then(ciphertext => {
         encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
-        document.getElementById("result").value = encrypted;
-        document.getElementById("progressbar").className = "progress-bar bg-success";
+        if (encrypted) {
+          document.getElementById("result").value = encrypted;
+          document.getElementById("progressbar").className = "progress-bar bg-success";
+        } else {
+          document.getElementById("result").value = 'Encryption failed.';
+          document.getElementById("progressbar").className = "progress-bar bg-danger";
+        }
     })
   }
   </script>
