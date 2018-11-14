@@ -72,7 +72,7 @@
 if (typeof openpgp.config === "object") {
   document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-success" role="alert">' + openpgp.config.versionstring + ' works in this browser!</div>');
 } else {
-  document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-danger" role="alert">OpenPGP.js won\'t start in this browser.</div>');
+  document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-danger" role="alert">OpenPGP.js won\'t start in this browser. Do a <a href="/compatibility.html">compatibility check.</a></div>');
 }
 </script>
 </html>
