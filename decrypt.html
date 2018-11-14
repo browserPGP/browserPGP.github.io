@@ -21,14 +21,14 @@
     const passphrase = document.getElementById("pass").value
     const encrypted = document.getElementById("pgpMsg").value
 
-    const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+    const privKeyObj = (await openpgp.key.readArmored(privkey).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";})).keys[0]
 
     if (passphrase) {
-      await privKeyObj.decrypt(passphrase)
+      await privKeyObj.decrypt(passphrase).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";})
     }
 
     const options = {
-        message: await openpgp.message.readArmored(encrypted),    // parse armored message
+        message: await openpgp.message.readArmored(encrypted).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";}),    // parse armored message
         privateKeys: [privKeyObj]                                 // for decryption
     }
 

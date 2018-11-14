@@ -17,7 +17,7 @@
   const encryptDecryptFunction = async() => {
     document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
 
-    var options = {
+    const options = {
       userIds: [{ name:document.getElementById("name").value, email:document.getElementById("email").value }], // multiple user IDs
       numBits: 4096,                                            // RSA key size
       passphrase: document.getElementById("pass").value         // protects the private key

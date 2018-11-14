@@ -20,7 +20,7 @@
     const pubkey = document.getElementById("pubKey").value
     const cleartext = document.getElementById("signMsg").value
 
-    options = {
+    const options = {
       message: await openpgp.cleartext.readArmored(cleartext).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";}), // parse armored message
       publicKeys: (await openpgp.key.readArmored(pubkey).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";})).keys // for verification
     }

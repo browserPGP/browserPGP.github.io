@@ -22,21 +22,16 @@
     const passphrase = document.getElementById("pass").value
     const msg = document.getElementById("msg").value
 
-    let privKeyObj;
-    let options;
-    try {
-      privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
-      if (passphrase) {
-        await privKeyObj.decrypt(passphrase)
-      }
-      options = {
-        message: openpgp.cleartext.fromText(msg), // CleartextMessage or Message object
-        privateKeys: [privKeyObj]                             // for signing
-      };
-    } catch (err) {
-      document.getElementById("result").value = err.message;
-      document.getElementById("progressbar").className = "progress-bar bg-danger";
+    const privKeyObj = (await openpgp.key.readArmored(privkey).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";})).keys[0]
+
+    if (passphrase) {
+      await privKeyObj.decrypt(passphrase).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";})
     }
+
+    const options = {
+      message: openpgp.cleartext.fromText(msg).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";}), // CleartextMessage or Message object
+      privateKeys: [privKeyObj]                             // for signing
+    };
 
     openpgp.sign(options).then(function(signed) {
       cleartext = signed.data; // '-----BEGIN PGP SIGNED MESSAGE ... END PGP SIGNATURE-----'
