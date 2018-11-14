@@ -1,0 +1,96 @@
+<html>
+<head>
+  <title>browserPGP | Compatibility</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="PGP in browser, simple and secure.">
+  <meta name="keywords" content="browserPGP,PGP,OpenPGP,online,browser,javascript,github,live,secure,key generator,key gen,encrypt,decrypt,sign,verify,signature">
+  <meta name="author" content="ar0n#1462">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="prngCheck.js"></script>
+  <script src="favicon.js"></script>
+  <script src="sha1.min.js"></script>
+  <style>
+  html, body {
+    height: 95%;
+  }
+  div.main {
+    padding:20px;
+    height: 100%;
+  }
+  .badge {
+    float: right;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+      <img src="/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      browserPGP
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/gen.html">Key Generator</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/encrypt.html">Encrypt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/decrypt.html">Decrypt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sign.html">Sign</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/verify.html">Verify</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+          <h1 class="display-4">Compatibility Check</h1>
+          <a>browserPGP requires a modern web browser with the cutting edge support for WebCrypto (PRNG). This page will automatically check your browser to see if browserPGP will work.</a>
+          <br><br>
+          <div id="success"></div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div id="jsCheck"><span class="badge badge-pill badge-danger">Unavailable.</span></div>
+              <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">javascript</a>
+            </li>
+            <li class="list-group-item">
+              <div id="prngCheck"><span class="badge badge-pill badge-danger">Unavailable.</span></div>
+              <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto">prng (pseudo random number generator)</a>
+            </li>
+          </ul>
+          <div id="worksCheck"></div>
+          <noscript><br><div class="alert alert-danger" role="alert">This website requires JavaScript to function, please enable it.</div></noscript>
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+document.getElementById("jsCheck").innerHTML = '<span class="badge badge-pill badge-success">Available!</span>';
+function isGoodPrngAvailable(){return!("undefined"==typeof window||!window.crypto||!window.crypto.getRandomValues)||"undefined"!=typeof window&&"object"==typeof window.msCrypto&&"function"==typeof window.msCrypto.getRandomValues}
+if (isGoodPrngAvailable()) {
+  document.getElementById("prngCheck").innerHTML = '<span class="badge badge-pill badge-success">Available!</span>';
+  document.getElementById('success').insertAdjacentHTML('beforeend', '<div class="alert alert-success" role="alert">You have all the requirements to use browserPGP on this device / in this web browser.</div><br>');
+}
+</script>
+</html>
