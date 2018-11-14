@@ -71,11 +71,15 @@
   </div>
 </body>
 <script src="openpgp.min.js"></script>
+<script src="baffle.min.js"></script>
 <script>
 if (typeof openpgp.config === "object") {
   document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-success" role="alert">' + openpgp.config.versionstring + ' works in this browser!</div>');
 } else {
   document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<br><div class="alert alert-danger" role="alert">OpenPGP.js won\'t start in this browser. Do a <a href="/compatibility.html">compatibility check.</a></div>');
 }
+
+let c = baffle('code', {characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', speed: 80}).start();
+c.reveal(3000, 500);
 </script>
 </html>
