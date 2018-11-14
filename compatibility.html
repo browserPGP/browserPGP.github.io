@@ -71,6 +71,7 @@
           <a>browserPGP requires a modern web browser with the cutting edge support for WebCrypto (PRNG). This page will automatically check your browser to see if browserPGP will work.</a>
           <br><br>
           <div id="success"></div>
+          <noscript><div class="alert alert-danger" role="alert">You don't have the requirements to use browserPGP on this device / in this web browser.</div><br></noscript>
           <ul class="list-group">
             <li class="list-group-item">
               <div id="jsCheck"><span class="badge badge-pill badge-danger">Unavailable.</span></div>
@@ -96,6 +97,8 @@ function isGoodPrngAvailable(){return!("undefined"==typeof window||!window.crypt
 if (isGoodPrngAvailable()) {
   document.getElementById("prngCheck").innerHTML = '<span class="badge badge-pill badge-success">Available!</span>';
   document.getElementById('success').insertAdjacentHTML('beforeend', '<div class="alert alert-success" role="alert">You have all the requirements to use browserPGP on this device / in this web browser.</div><br>');
+} else {
+  document.getElementById('success').insertAdjacentHTML('beforeend', '<div class="alert alert-danger" role="alert">You don\'t have the requirements to use browserPGP on this device / in this web browser.</div><br>');
 }
 </script>
 </html>
