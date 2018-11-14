@@ -29,7 +29,7 @@
     }
 
     const options = {
-      message: openpgp.cleartext.fromText(msg).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";}), // CleartextMessage or Message object
+      message: openpgp.cleartext.fromText(msg), // CleartextMessage or Message object
       privateKeys: [privKeyObj]                             // for signing
     };
 
