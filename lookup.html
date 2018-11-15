@@ -1,0 +1,108 @@
+<html>
+<head>
+  <title>browserPGP | Lookup</title>
+  <meta name="description" content="Lookup public PGP keys in browser, simple and secure." />
+  <meta name="keywords" content="browserPGP,PGP,OpenPGP,online,browser,javascript,github,live,secure,key generator,key gen,encrypt,decrypt,sign,verify,signature">
+  <meta name="author" content="ar0n#1462">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="prngCheck.js"></script>
+  <script src="favicon.js"></script>
+  <script src="openpgp.min.js"></script>
+  <script>
+  openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
+  let pubkey;
+  const encryptDecryptFunction = async() => {
+    document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
+    var hkp = new openpgp.HKP('https://pgp.mit.edu');
+
+    var options = {
+        query: document.getElementById("query").value
+    };
+
+    let armoredPubkey = await hkp.lookup(options).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";});
+    var pubkey = await openpgp.key.readArmored(armoredPubkey).catch((err) => {document.getElementById("result").value = err.message;document.getElementById("progressbar").className = "progress-bar bg-danger";});
+    console.log(pubkey);
+    document.getElementById("userid").value = pubkey.keys[0].users[0].userId.userid;
+    document.getElementById("result").value = armoredPubkey;
+  }
+  </script>
+  <style>
+  html, body {
+    height: 95%;
+  }
+  div.main {
+    padding:20px;
+    height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+      <img src="/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      browserPGP
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gen.html">Key Generator</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/encrypt.html">Encrypt</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/decrypt.html">Decrypt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sign.html">Sign</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/verify.html">Verify</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/compatibility.html">Compatibility</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name / Email</label>
+            <input type="text" class="form-control" id="query" placeholder="Enter name or email">
+          </div>
+          <div class="form-group progress">
+            <div class="progress-bar" role="progressbar" id="progressbar" style="width: 100%"></div>
+          </div>
+          <button type="button" onclick="encryptDecryptFunction()" class="btn btn-primary">Decrypt</button>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Public Key</label>
+            <textarea class="form-control" style="font-size: 10px;" rows="20" placeholder="-----BEGIN PGP PUBLIC KEY BLOCK-----" id="result" readonly></textarea>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">User ID</label>
+            <input type="text" class="form-control" id="userid" placeholder="Example Doe <example@gmail.com>" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
