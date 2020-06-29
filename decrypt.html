@@ -14,9 +14,9 @@
   <script src="prngCheck.js"></script>
   <script src="favicon.js"></script>
   <script src="sha1.min.js"></script>
-  <script src="openpgp.min.js"></script>
+  <script src="https://raw.githubusercontent.com/openpgpjs/openpgpjs/master/dist/openpgp.min.js"></script>
   <script>
-  openpgp.initWorker({ path:'openpgp.worker.min.js' }) // set the relative web worker path
+  openpgp.initWorker({ path:'https://raw.githubusercontent.com/openpgpjs/openpgpjs/master/dist/openpgp.worker.min.js' }) // set the relative web worker path
 
   const encryptDecryptFunction = async() => {
     document.getElementById("progressbar").className = "progress-bar progress-bar-striped progress-bar-animated";
