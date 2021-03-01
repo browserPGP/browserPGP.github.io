@@ -85,8 +85,5 @@ if (typeof openpgp.config === "object") {
 } else {
   document.getElementById('worksCheck').insertAdjacentHTML('beforeend', '<div class="alert alert-danger" role="alert">OpenPGP.js won\'t start in this browser. Do a <a href="/compatibility.html">compatibility check.</a></div>');
 }
-
-let c = baffle('code', {characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', speed: 80}).start();
-c.reveal(3000, 500);
 </script>
 </html>
